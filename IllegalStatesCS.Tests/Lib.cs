@@ -4,7 +4,7 @@ public static class Lib
 {
     public static void Dump(this object o)
     {
-        DumpInternal(o, 0);
+        DumpInternal(o);
     }
 
     /// <summary>

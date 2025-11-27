@@ -11,8 +11,8 @@ public class Tests
     [Test]
     public void BadContact()
     {
-        var contact = TestData.NewContact();
-        var badContact = contact with { EmailAddress = "BAD" };
+        var badEmail   = TestData.NewEmailContactInfo() with { EmailAddress = "BAD" };
+        var badContact = TestData.NewContact() with { EmailContactInfo =  badEmail};
         badContact.Dump();
     }
 }

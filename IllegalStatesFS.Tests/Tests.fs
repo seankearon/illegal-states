@@ -10,5 +10,5 @@ let ``Good contact`` () =
 [<Test>]
 let ``Bad contact`` () =
     TestData.newContact()
-    |> fun c -> { c with EmailAddress = "BAD"  }
+    |> fun c -> { c with EmailContactInfo = { TestData.newEmailContactInfo() with EmailAddress = "BAD"} }
     |> Console.WriteLine    
