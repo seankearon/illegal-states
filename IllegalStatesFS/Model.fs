@@ -6,8 +6,20 @@ type PersonalName = {
     LastName     : string
 }
 
+type EmailAddress = private EmailAddress of string
+
+module EmailAddress =
+    let private isValidEmail (value: string) =
+        System.Text.RegularExpressions.Regex.IsMatch(value, @"^\S+@\S+\.\S+$")
+
+    let from (value: string) =
+        if not (isValidEmail value) then
+            failwith $"'{value}' is not a valid email address."
+        EmailAddress value
+
+
 type EmailContactInfo = {
-    EmailAddress   : string
+    EmailAddress   : EmailAddress
     IsEmailVerified: bool
 }
 

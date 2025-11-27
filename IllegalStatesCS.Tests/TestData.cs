@@ -30,7 +30,7 @@ public static class TestData
         var faker = new Faker();
         return new EmailContactInfo
         {
-            EmailAddress = faker.Internet.Email(),
+            EmailAddress = EmailAddress.From(faker.Internet.Email()),
             IsEmailVerified = faker.Random.Bool(0.7f)
         };
     }

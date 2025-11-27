@@ -1,4 +1,6 @@
-﻿namespace IllegalStatesCS;
+﻿using Vogen;
+
+namespace IllegalStatesCS;
 
 public record PersonalName
 {
@@ -7,10 +9,22 @@ public record PersonalName
     public string LastName      { get; init; } = "";
 }
 
+[ValueObject<string>]
+public readonly partial struct EmailAddress
+{
+    private static Validation Validate(string value) =>
+        ValidEmailRegex().IsMatch(value)
+            ? Validation.Ok
+            : Validation.Invalid($"'{value}' is not a valid email address.");
+    
+    [System.Text.RegularExpressions.GeneratedRegex(@"^\S+@\S+\.\S+$")]
+    private static partial System.Text.RegularExpressions.Regex ValidEmailRegex();
+}
+
 public record EmailContactInfo
 {
-    public string EmailAddress  { get; init; } = "";
-    public bool IsEmailVerified { get; init; }
+    public EmailAddress EmailAddress    { get; init; }
+    public bool         IsEmailVerified { get; init; }
 }
 
 public record Address

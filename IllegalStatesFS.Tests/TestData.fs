@@ -14,7 +14,7 @@ let newPersonalName () =
 let newEmailContactInfo () =
     let faker = Faker()
     {
-        EmailAddress = faker.Internet.Email()
+        EmailAddress = EmailAddress.from(faker.Internet.Email())
         IsEmailVerified = faker.Random.Bool(0.7f)
     }
 
