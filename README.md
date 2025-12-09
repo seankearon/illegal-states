@@ -131,13 +131,11 @@ This means that we can't create illegal states in our domain, and our previous t
 ## Why not just use \`readonly struct record\`?
 
 <details>
-<summary>You can, but Vogon adds some more value</summary>
+<summary>You can, but Vogon adds some more value...</summary>
 
 Dave Brock has a C# Advent Calendar blog post using readonly structs:
 
 https://www.daveabrock.com/2025/12/07/parsing-santas-workshop-with-strongly-typed-data-without-the-coal/
-
-Vogon does a bit more (Copilot generated summary follows).
 
 ### **Readonly Record Struct Approach** (Dave Abrock's article)
 - **Manual implementation** - you write the type yourself
