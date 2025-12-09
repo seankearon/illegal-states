@@ -8,6 +8,8 @@ There are tests for each language, but these don't assert that the code is corre
 
 ![img.png](img.png)
 
+![](bad.png)
+
 # How to follow
 
 Start at the `main` branch, then follow the branches by number. 
