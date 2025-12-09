@@ -126,6 +126,69 @@ This means that we can't create illegal states in our domain, and our previous t
 
 ![](failing_tests.png)
 
+# FAQ
+
+## Why not just use \`readonly struct record\`?
+
+<details>
+<summary>You can, but Vogon adds some more value</summary>
+
+Dave Brock has a C# Advent Calendar blog post using readonly structs:
+
+https://www.daveabrock.com/2025/12/07/parsing-santas-workshop-with-strongly-typed-data-without-the-coal/
+
+Vogon does a bit more (Copilot generated summary follows).
+
+### **Readonly Record Struct Approach** (Dave Abrock's article)
+- **Manual implementation** - you write the type yourself
+- **Type safety** - prevents mixing up domain concepts (e.g., `ElfId` vs `GiftId`)
+- **Value semantics** - automatic equality comparison based on value
+- **Performance** - stack-allocated, no GC pressure
+- **No built-in validation** - you must manually validate everywhere you use it
+- **Can use `new()` and `default`** - nothing stops invalid instances being created
+
+### **Vogen's Additional Capabilities**
+
+1. **Enforced Validation**: Vogen's biggest advantage is centralized, enforced validation through a static `Validate` method that runs automatically:
+
+```csharp
+[ValueObject<int>]
+public partial struct Age {
+    public static Validation Validate(int value) =>
+        value > 0 ? Validation.Ok : Validation.Invalid("Must be greater than zero.");
+}
+```
+
+2. **Code Analysis Protection**: Vogen adds **compilation errors** to prevent invalid construction:
+    - Cannot use `new Age()` (error VOG010)
+    - Cannot use `default(Age)` (error VOG009)
+    - Cannot create your own constructors (error VOG008)
+    - Cannot use reflection/Activator (error VOG025)
+
+3. **Automatic Serialization**: Built-in converters for System.Text.Json, Newtonsoft.Json, Dapper, EFCore, LINQ to DB, MongoDB, etc.
+
+4. **Normalization**: Optional `NormalizeInput` method to sanitize values on construction
+
+5. **Named Instances**: Create well-known instances like `Age.Unspecified`:
+
+```csharp
+[ValueObject]
+[Instance("Unspecified", -1)]
+public readonly partial struct Age { }
+```
+
+6. **Consistent API**: All VOs use `From()` factory method for construction, ensuring validation runs
+
+### Bottom Line
+
+**Use readonly record struct when**: You need simple type safety without validation requirements.
+
+**Use Vogen when**: You need validation, want to prevent invalid state at compile-time, and need comprehensive serialization support. Vogen essentially enforces domain-driven design principles through code analysis.
+
+</details>
+
+
+
 # Links
 
 - [Designing with types](https://fsharpforfunandprofit.com/posts/designing-with-types-intro/#series-toc)
