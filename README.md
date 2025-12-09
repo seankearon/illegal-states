@@ -126,6 +126,8 @@ This means that we can't create illegal states in our domain, and our previous t
 
 ![](failing_tests.png)
 
+![](bad.png)
+
 # FAQ
 
 ## Why not just use \`readonly struct record\`?
